@@ -7,24 +7,53 @@ use Cake\Core\Exception\Exception;
 
 class SitemapComponent extends Component
 {
-    const TYPE_INDEX = 1;
-
-    const TYPE_SITEMAP = 2;
+    const TYPE_INDEX = 'index';
+    const TYPE_SITEMAP = 'sitemap';
 
     public $locations = [];
 
     public $cache = '+1 day';
 
+    public $controller;
+
     protected $_type;
 
-    public function startSitemap()
+    public function initialize(array $config)
     {
-        $this->_type = self::TYPE_SITEMAP;
+        $this->controller = $this->_registry->getController();
+
+        //if ($this->_registry->has('Auth')) {
+        //    $this->Auth->allow();
+        //}
     }
 
-    public function startSitemapIndex()
+    public function beforeRender()
     {
-        $this->_type = self::TYPE_INDEX;
+        $this->controller->set('type', $this->_type);
+        $this->controller->set('locations', $this->locations);
+    }
+
+    protected function _createSitemap($type)
+    {
+        $this->_type = $type;
+
+        //$this->controller->autoRender = false;
+        $this->controller->autoLayout = false;
+        $this->controller->viewClass = 'Sitemap.SitemapXml';
+
+        //@TODO Set response parameters from SitemapXml view
+        $this->controller->response->type('application/xml');
+        $this->controller->response->cache(mktime(0, 0, 0, date('m'), date('d'), date('Y')), $this->cache);
+    }
+
+    public function create()
+    {
+        $this->_createSitemap(self::TYPE_SITEMAP);
+    }
+
+    public function createIndex()
+    {
+        $this->_createSitemap(self::TYPE_INDEX);
     }
 
     public function addLocations(array $locations)
@@ -58,33 +87,6 @@ class SitemapComponent extends Component
         array_push($this->locations, compact('loc', 'lastmod', 'changefreq', 'priority'));
 
         return $this;
-    }
-
-    public function render()
-    {
-        $controller = $this->_registry->getController();
-        $view = null;
-
-        switch ($this->_type) {
-            case self::TYPE_INDEX:
-                $view = 'Sitemap.index';
-                break;
-
-            case self::TYPE_SITEMAP:
-            default:
-                $view = 'Sitemap.sitemap';
-                break;
-        }
-
-        $controller->set('locations', $this->locations);
-
-        $controller->autoRender = false;
-        $controller->autoLayout = false;
-        $controller->viewClass = 'Sitemap.SitemapXml';
-        //@TODO Set response parameters from SitemapXml view
-        $controller->response->type('application/xml');
-        $controller->response->cache(mktime(0, 0, 0, date('m'), date('d'), date('Y')), $this->cache);
-        $controller->render($view);
     }
 
 }
