@@ -2,6 +2,7 @@
 namespace Sitemap\Controller\Component;
 
 use Cake\Controller\Component;
+use Cake\Controller\Controller;
 use Cake\Routing\Router;
 use Cake\Core\Exception\Exception;
 
@@ -14,6 +15,9 @@ class SitemapComponent extends Component
 
     public $cache = '+1 day';
 
+    /**
+     * @var Controller
+     */
     public $controller;
 
     protected $_type;
@@ -38,8 +42,8 @@ class SitemapComponent extends Component
         $this->_type = $type;
 
         //$this->controller->autoRender = false;
-        $this->controller->autoLayout = false;
         $this->controller->viewClass = 'Sitemap.SitemapXml';
+        $this->controller->viewBuilder()->autoLayout(false);
 
         //@TODO Set response parameters from SitemapXml view
         $this->controller->response->type('application/xml');
