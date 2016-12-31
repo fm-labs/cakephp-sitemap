@@ -19,63 +19,41 @@ Enable Sitemap plugin with default sitemap routes in your config/bootstrap.php
 Plugin::load('Sitemap', ['routes' => true]);
 ```
 
-Create a SitemapController, like this:
+## Configuration
 
+Create config/sitemap.php with a mapping of Sitemap providers
 
 ```
-namespace App\Controller;
-
-class SitemapController extends AppController
-{
-    public function initialize()
-    {
-        $this->loadComponent('Sitemap.Sitemap');
-
-        //$this->Auth->allow(['index', 'procucts']);
-    }
-
-    /**
-     * Create Sitemap index XML
-     */
-    public function index()
-    {
-        $this->Sitemap->createIndex();
-
-        $this->Sitemap->addLocation(['action' => 'products']);
-    }
-
-    /**
-     * Create Sitemap XML from model
-     */
-    public function products()
-    {
-        $this->Sitemap->create();
-
-        $this->loadModel('Shop.ShopProducts');
-        foreach ($this->ShopProducts->find('list') as $id => $title) {
-            $this->Sitemap->addLocation(
-                ['plugin' => null, 'controller' => 'Products', 'action' => 'view', $id], // url
-                0.5, // priority
-                null, // last modified date
-                'monthly' // change frequency
-            );
-        }
-    }
-}
+return [
+    'Sitemap' => [
+        'posts' => '\\App\\Sitemap\\MyPostsSitemapProvider'  
+    ]
+]
 ```
 
+## Sitemap routes
 
-## Default Routes
+- /sitemap.xml -> SitemapController::index()
+- /sitemap_:sitemap.xml -> SitemapController::view($sitemap)
+- /sitemap_:sitemap-:page.xml -> SitemapController::view($sitemap, $page)
+
+## Create sitemap providers
+
+Create a class implementing the Sitemap\\Lib\\SitemapProviderInterface
+
+## Create sitemap providers for models
+
+Create a class extending the Sitemap\\Lib\\ModelSitemapProvider
+
+- Set $modelClass
+- Implement abstract find() method to find model records
+- Implement abstract compile() method to create/filter sitemap locations from result set
 
 
-The default routes are:
+## Customized SitemapController
 
-/sitemap.[:action]_[:page].xml -> ['controller' => 'Sitemap', 'action' => [:action], 'page' => [:page]]
-/sitemap.[:action].xml -> ['controller' => 'Sitemap', 'action' => [:action]]
-/sitemap.xml -> ['controller' => 'Sitemap', 'action' => 'index']
-
-
-Enable default routes when loading the plugin in your bootstrap.php file:
-```
-Plugin::load('Sitemap', ['routes' => true]);
-```
+- copy plugin's SitemapController to your app's controller dir
+- disable Sitemap plugin routes
+- create your own sitemap routes pointing to your sitemap controller
+- may use SitemapComponent to create sitemaps
+- may use SitemapXmlView to render sitemaps

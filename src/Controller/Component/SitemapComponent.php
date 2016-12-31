@@ -3,9 +3,17 @@ namespace Sitemap\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
+use Cake\Core\Configure;
 use Cake\Routing\Router;
 use Cake\Core\Exception\Exception;
+use Sitemap\Exception\InvalidSitemapProviderException;
+use Sitemap\Exception\MissingSitemapProviderClassException;
+use Sitemap\Lib\SitemapProviderInterface;
 
+/**
+ * Class SitemapComponent
+ * @package Sitemap\Controller\Component
+ */
 class SitemapComponent extends Component
 {
     const TYPE_INDEX = 'index';
@@ -42,10 +50,10 @@ class SitemapComponent extends Component
         $this->_type = $type;
 
         //$this->controller->autoRender = false;
-        $this->controller->viewClass = 'Sitemap.SitemapXml';
+        $this->controller->viewBuilder()->className('Sitemap.SitemapXml');
         $this->controller->viewBuilder()->autoLayout(false);
 
-        //@TODO Set response parameters from SitemapXml view
+        //@TODO Set response parameters in SitemapXml view
         $this->controller->response->type('application/xml');
         $this->controller->response->cache(mktime(0, 0, 0, date('m'), date('d'), date('Y')), $this->cache);
     }
@@ -60,25 +68,26 @@ class SitemapComponent extends Component
         $this->_createSitemap(self::TYPE_INDEX);
     }
 
-    public function addLocations(array $locations)
+    public function addLocations(array $urlations)
     {
-        foreach ($locations as $loc) {
-            $this->addLocation($loc);
+        foreach ($urlations as $url) {
+            $this->addLocation($url);
         }
         return $this;
     }
 
-    public function addLocation($loc, $priority = 0.5, $lastmod = null, $changefreq = null)
+    public function addLocation($url, $priority = 0.5, $lastmod = null, $changefreq = null)
     {
-        if (is_array($loc) && isset($loc['loc'])) {
-            extract($loc, EXTR_IF_EXISTS);
+        if (is_array($url) && isset($url['url'])) {
+            extract($url, EXTR_IF_EXISTS);
         }
 
         // build full location url
-        $loc = Router::url($loc, true);
+        $url = Router::url($url, true);
 
         // validate priority
         $priority = (is_numeric($priority) && $priority >= 0 && $priority <= 1) ? $priority : 0.5;
+        $priority = ($priority == 0 || $priority == 1) ? number_format($priority, 0) : number_format($priority, 1);
 
         // w3c time format
         // @link http://www.w3.org/TR/NOTE-datetime
@@ -86,11 +95,29 @@ class SitemapComponent extends Component
         $lastmod = ($lastmod) ? date(DATE_W3C, strtotime($lastmod)) : null;
 
         // validate changefreq
-        $changefreq = (in_array($changefreq, array('always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'))) ? $changefreq : null;
+        $changefreq = (in_array($changefreq, ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'])) ? $changefreq : null;
 
-        array_push($this->locations, compact('loc', 'lastmod', 'changefreq', 'priority'));
-
+        array_push($this->locations, ['loc' => $url, 'priority' => $priority, 'lastmod' => $lastmod, 'changefreq' => $changefreq]);
         return $this;
     }
 
+    /**
+     * @param $sitemap
+     * @return SitemapProviderInterface
+     * @todo Refactorer with class registry / object factory
+     */
+    public function getProvider($sitemap)
+    {
+        $providerClass = Configure::read('Sitemap.' . $sitemap);
+        if (!class_exists($providerClass)) {
+            throw new MissingSitemapProviderClassException(['class' => $providerClass]);
+        }
+        $provider = new $providerClass();
+
+        if (!($provider instanceof SitemapProviderInterface)) {
+            throw new InvalidSitemapProviderException(['class' => $providerClass]);
+        }
+
+        return $provider;
+    }
 }
