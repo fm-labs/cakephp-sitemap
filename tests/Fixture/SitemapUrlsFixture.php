@@ -47,7 +47,7 @@ class SitemapUrlsFixture extends TestFixture
         [
             'id' => 1,
             'scope' => '',
-            'model' => 'Pages',
+            'model' => 'Posts',
             'foreignKey' => 1,
             'loc' => 'http://example.org',
             'changefreq' => 'daily',

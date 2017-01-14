@@ -14,7 +14,7 @@ class SitemapBehaviorTest extends TestCase
 {
 
     public $fixtures = [
-        'plugin.banana.pages',
+        'plugin.banana.posts',
         'plugin.sitemap.sitemap_urls'
     ];
 
@@ -26,7 +26,7 @@ class SitemapBehaviorTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->table = TableRegistry::get('Banana.Pages');
+        $this->table = TableRegistry::get('Banana.Posts');
         $this->table->primaryKey(['id']);
         $this->table->addBehavior('Sitemap.Sitemap');
         //$this->table->addBehavior('Tree.Tree');
