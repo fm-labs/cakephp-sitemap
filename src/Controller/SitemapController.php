@@ -27,11 +27,6 @@ use Sitemap\Sitemap\SitemapProviderInterface;
  */
 class SitemapController extends Controller
 {
-    public function _initialize()
-    {
-        Configure::load('sitemap');
-        $this->loadComponent('Sitemap.Sitemap');
-    }
 
     protected function _getSitemaps()
     {
@@ -62,6 +57,7 @@ class SitemapController extends Controller
 
             $sitemaps = $collector->toArray();
 
+            //@TODO Enable caching
             //Cache::write($cacheKey, $sitemaps);
         }
 
@@ -129,7 +125,18 @@ class SitemapController extends Controller
     }
 
     /**
+     * Deprecated initialize method
+     */
+    public function _initialize()
+    {
+        Configure::load('sitemap');
+        $this->loadComponent('Sitemap.Sitemap');
+    }
+
+    /**
+     * Deprecated index method
      * Create Sitemap index XML
+     * @deprecated
      */
     public function _index()
     {
@@ -142,6 +149,11 @@ class SitemapController extends Controller
         }
     }
 
+    /**
+     * Deprecated view method
+     * @param null $sitemap
+     * @deprecated
+     */
     public function _view($sitemap = null)
     {
         if (!$sitemap) {
