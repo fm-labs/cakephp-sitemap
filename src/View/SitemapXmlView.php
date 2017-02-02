@@ -7,20 +7,28 @@ use Sitemap\Controller\Component\SitemapComponent;
 
 class SitemapXmlView extends View
 {
+    public function initialize()
+    {
+        $cacheDuration = '+1 day';
+
+        $this->response->type('application/xml');
+        $this->response->cache(mktime(0, 0, 0, date('m'), date('d'), date('Y')), $cacheDuration);
+    }
+
+
     public function render($view = null, $layout = null)
     {
         $this->viewPath = 'Sitemap';
         $this->subDir = 'xml';
 
         if ($view === null) {
-            $type = $this->get('type', SitemapComponent::TYPE_SITEMAP);
+            $type = $this->get('type');
+            if (!$type) {
+                throw new \LogicException('Sitemap: Unknown view type');
+            }
             $view = 'Sitemap.' . $type;
         }
 
-        //$sitemap = $this->get('locations');
-        //if (!$sitemap) {
-        //    throw new NotFoundException('Sitemap not initalized');
-        //}
         return parent::render($view, false);
     }
 } 

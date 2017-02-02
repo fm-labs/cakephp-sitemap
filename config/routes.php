@@ -6,11 +6,11 @@ Router::connect('/sitemap.xml',
     ['plugin' => 'Sitemap', 'controller' => 'Sitemap', 'action' => 'index']);
 
 // Sitemap view routes
-Router::connect('/sitemap_:sitemap-:page.xml',
+Router::connect('/sitemap-:sitemap-:page.xml',
     ['plugin' => 'Sitemap', 'controller' => 'Sitemap', 'action' => 'view'],
     ['pass' => ['sitemap', 'page']]
 );
-Router::connect('/sitemap_:sitemap.xml',
+Router::connect('/sitemap-:sitemap.xml',
     ['plugin' => 'Sitemap', 'controller' => 'Sitemap', 'action' => 'view'],
     ['pass' => ['sitemap']]
 );

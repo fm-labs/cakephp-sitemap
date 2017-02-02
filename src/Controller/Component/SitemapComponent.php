@@ -8,11 +8,14 @@ use Cake\Routing\Router;
 use Cake\Core\Exception\Exception;
 use Sitemap\Exception\InvalidSitemapProviderException;
 use Sitemap\Exception\MissingSitemapProviderClassException;
-use Sitemap\Lib\SitemapProviderInterface;
+use Sitemap\Sitemap\SitemapProviderInterface;
 
 /**
  * Class SitemapComponent
  * @package Sitemap\Controller\Component
+ *
+ * @deprecated Use SitemapXmlView directly for rendering.
+ *     For sitemap location discovery use event system and/or sitemap providers.
  */
 class SitemapComponent extends Component
 {
@@ -104,7 +107,7 @@ class SitemapComponent extends Component
     /**
      * @param $sitemap
      * @return SitemapProviderInterface
-     * @todo Refactorer with class registry / object factory
+     * @deprecated
      */
     public function getProvider($sitemap)
     {

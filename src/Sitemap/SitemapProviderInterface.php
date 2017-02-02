@@ -1,9 +1,12 @@
 <?php
 
-namespace Sitemap\Lib;
+namespace Sitemap\Sitemap;
 
 
 interface SitemapProviderInterface
 {
+    /**
+     * @return array
+     */
     public function getSitemapLocations();
 }
