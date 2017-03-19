@@ -38,7 +38,7 @@ class SitemapController extends Controller
         $this->eventManager()->on('Sitemap.get', function(Event $event) {
             $event->subject()->add(new SitemapLocation('/'));
         });
-        $this->eventManager()->on(new SitemapListener());
+        //$this->eventManager()->on(new SitemapListener());
 
         if (!$sitemaps) {
 
@@ -47,12 +47,14 @@ class SitemapController extends Controller
             $this->eventManager()->dispatch($event);
 
             // providers
+            /*
             $providers = (isset($event->result['provider'])) ? $event->result['provider'] : [];
             foreach ($providers as $provider => $className) {
 
                 $Provider = $this->_getSitemapProvider($className);
                 $collector->add($Provider->getSitemapLocations(), $provider);
             }
+            */
 
 
             $sitemaps = $collector->toArray();
@@ -112,16 +114,14 @@ class SitemapController extends Controller
         }
 
         $sitemaps = $this->_getSitemaps();
-        $locations = [];
-
-        if (array_key_exists($scope, $sitemaps)) {
-            $locations = $sitemaps[$scope];
+        if (!array_key_exists($scope, $sitemaps)) {
+            throw new NotFoundException();
         }
 
         $this->viewBuilder()->className('Sitemap.SitemapXml');
 
         $this->set('type', 'sitemap');
-        $this->set('locations', $locations);
+        $this->set('locations', $sitemaps[$scope]);
     }
 
     /**

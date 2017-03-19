@@ -1,1 +1,2 @@
 <?php
+// Nothing to bootstrap.

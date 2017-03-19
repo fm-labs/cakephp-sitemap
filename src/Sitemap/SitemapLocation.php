@@ -3,6 +3,7 @@
 namespace Sitemap\Sitemap;
 
 
+use Cake\I18n\Time;
 use Cake\Routing\Router;
 
 class SitemapLocation implements \ArrayAccess
@@ -25,7 +26,9 @@ class SitemapLocation implements \ArrayAccess
         // w3c time format
         // @link http://www.w3.org/TR/NOTE-datetime
         //$lastmod = (is_numeric($lastmod)) ? $lastmod : strtotime($lastmod);
-        $lastmod = ($lastmod) ? date(DATE_W3C, strtotime($lastmod)) : null;
+        $lastmod = (is_object($lastmod) && $lastmod instanceof Time) ? $lastmod->toW3cString() : $lastmod;
+        $lastmod = (is_object($lastmod) && $lastmod instanceof \DateTime) ? $lastmod->format(DATE_W3C) : $lastmod;
+        //$lastmod = ($lastmod) ? date(DATE_W3C, strtotime($lastmod)) : null;
 
         // validate changefreq
         $changefreq = (in_array($changefreq, ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'])) ? $changefreq : null;

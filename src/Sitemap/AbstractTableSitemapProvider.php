@@ -5,31 +5,50 @@ namespace Sitemap\Sitemap;
 
 use Cake\Collection\Collection;
 use Cake\Datasource\ResultSetInterface;
+use Cake\Event\Event;
+use Cake\Event\EventListenerInterface;
 use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\ResultSet;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 
-abstract class AbstractTableSitemapProvider implements SitemapProviderInterface
+abstract class AbstractTableSitemapProvider implements SitemapProviderInterface, EventListenerInterface
 {
     /**
-     * @var string
+     * @var string Model classname
      */
     public $modelClass;
+
+    /**
+     * @var string Sitemap alias
+     */
+    public $name = 'default';
 
     /**
      * @var Table
      */
     protected $_table;
 
+    protected $_locations = [];
+
+    public function implementedEvents()
+    {
+        return [
+            'Sitemap.get' => 'getSitemap',
+        ];
+    }
+
+    public function getSitemap(Event $event)
+    {
+        $event->subject()->add($this->getSitemapLocations(), $this->name);
+    }
+
     public function getSitemapLocations()
     {
         if (!$this->modelClass) {
             throw new \Exception('ModelSitemapProvider: Missing model class name');
         }
-
-        $locations = [];
 
         try {
             $this->_table = TableRegistry::get($this->modelClass);
@@ -38,7 +57,7 @@ abstract class AbstractTableSitemapProvider implements SitemapProviderInterface
             $query = $this->find($query);
 
             $result = $query->all();
-            $this->compile($result, $locations);
+            $this->compile($result);
 
         } catch (\Exception $ex) {
             Log::critical(sprintf('Sitemap: Error fetching sitemap locations for model \'%s\': %s',
@@ -46,7 +65,12 @@ abstract class AbstractTableSitemapProvider implements SitemapProviderInterface
                 $ex->getMessage()));
         }
 
-        return $locations;
+        return $this->_locations;
+    }
+
+    protected function _addLocation(SitemapLocation $loc)
+    {
+        $this->_locations[] = $loc;
     }
 
     /**
@@ -59,7 +83,8 @@ abstract class AbstractTableSitemapProvider implements SitemapProviderInterface
 
     /**
      * @param ResultSetInterface|ResultSet $result
-     * @param array $locations
+     * @return
+     * @internal param array $locations
      */
-    abstract public function compile(ResultSetInterface $result, array &$locations);
+    abstract public function compile(ResultSetInterface $result);
 }
