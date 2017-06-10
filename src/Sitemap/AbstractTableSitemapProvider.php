@@ -2,7 +2,6 @@
 
 namespace Sitemap\Sitemap;
 
-
 use Cake\Collection\Collection;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Event\Event;
@@ -58,11 +57,12 @@ abstract class AbstractTableSitemapProvider implements SitemapProviderInterface,
 
             $result = $query->all();
             $this->compile($result);
-
         } catch (\Exception $ex) {
-            Log::critical(sprintf('Sitemap: Error fetching sitemap locations for model \'%s\': %s',
+            Log::critical(sprintf(
+                'Sitemap: Error fetching sitemap locations for model \'%s\': %s',
                 $this->modelClass,
-                $ex->getMessage()));
+                $ex->getMessage()
+            ));
         }
 
         return $this->_locations;

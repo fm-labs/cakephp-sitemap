@@ -2,7 +2,6 @@
 
 namespace Sitemap\Sitemap;
 
-
 use Cake\Collection\Collection;
 use Sitemap\Sitemap\SitemapLocation;
 
@@ -31,6 +30,7 @@ class SitemapLocationsCollector
             foreach ($loc as $_loc) {
                 $this->add($_loc, $scope);
             }
+
             return $this;
         }
 
@@ -39,6 +39,7 @@ class SitemapLocationsCollector
         }
 
         array_push($this->_locations[$scope], $loc);
+
         return $this;
     }
 
@@ -60,6 +61,7 @@ class SitemapLocationsCollector
         foreach ($this->_locations as $scope => $locations) {
             $col[$scope] = new Collection($locations);
         }
+
         return $col;
     }
 }

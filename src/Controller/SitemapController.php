@@ -34,14 +34,12 @@ class SitemapController extends Controller
         $cacheKey = 'sitemap_locations';
         $sitemaps = Cache::read($cacheKey);
 
-
-        $this->eventManager()->on('Sitemap.get', function(Event $event) {
+        $this->eventManager()->on('Sitemap.get', function (Event $event) {
             $event->subject()->add(new SitemapLocation('/'));
         });
         //$this->eventManager()->on(new SitemapListener());
 
         if (!$sitemaps) {
-
             $collector = new SitemapLocationsCollector();
             $event = new Event('Sitemap.get', $collector);
             $this->eventManager()->dispatch($event);
@@ -55,7 +53,6 @@ class SitemapController extends Controller
                 $collector->add($Provider->getSitemapLocations(), $provider);
             }
             */
-
 
             $sitemaps = $collector->toArray();
 
@@ -79,6 +76,7 @@ class SitemapController extends Controller
         }
 
         $Provider = new $class();
+
         return $Provider;
     }
 
@@ -90,7 +88,7 @@ class SitemapController extends Controller
     {
         $sitemaps = $this->_getSitemaps();
         $indexUrls = [];
-        foreach(array_keys($sitemaps) as $sitemap) {
+        foreach (array_keys($sitemaps) as $sitemap) {
             $indexUrls[] = ['loc' => Router::url(['action' => 'view', $sitemap])];
         }
 

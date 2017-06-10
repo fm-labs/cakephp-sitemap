@@ -2,7 +2,6 @@
 
 namespace Sitemap\Sitemap;
 
-
 use Cake\I18n\Time;
 use Cake\Routing\Router;
 
@@ -92,6 +91,7 @@ class SitemapLocation implements \ArrayAccess
         if (isset($this->_fields[$offset])) {
             return $this->_fields[$offset];
         }
+
         return null;
     }
 

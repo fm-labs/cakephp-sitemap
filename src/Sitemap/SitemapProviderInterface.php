@@ -2,7 +2,6 @@
 
 namespace Sitemap\Sitemap;
 
-
 interface SitemapProviderInterface
 {
     /**

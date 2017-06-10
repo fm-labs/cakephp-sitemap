@@ -1,6 +1,7 @@
 <?php
 
 namespace Sitemap\Exception;
+
 use Cake\Core\Exception\Exception;
 
 class InvalidSitemapProviderException extends Exception

@@ -2,7 +2,6 @@
 
 namespace Sitemap\Model\Behavior;
 
-
 use Cake\Log\Log;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
@@ -23,7 +22,6 @@ class SitemapBehavior extends Behavior
         ]
     ];
 
-
     /**
      * Auto-wire models
      *
@@ -42,6 +40,7 @@ class SitemapBehavior extends Behavior
     {
         if (!method_exists($this->_table, 'findSitemap')) {
             Log::warning('Table ' . $this->_table->alias() . ' has no method findSitemap()');
+
             return $query;
         }
 

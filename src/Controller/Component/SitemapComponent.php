@@ -76,6 +76,7 @@ class SitemapComponent extends Component
         foreach ($urlations as $url) {
             $this->addLocation($url);
         }
+
         return $this;
     }
 
@@ -101,6 +102,7 @@ class SitemapComponent extends Component
         $changefreq = (in_array($changefreq, ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'])) ? $changefreq : null;
 
         array_push($this->locations, ['loc' => $url, 'priority' => $priority, 'lastmod' => $lastmod, 'changefreq' => $changefreq]);
+
         return $this;
     }
 
