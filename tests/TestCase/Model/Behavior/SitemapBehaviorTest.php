@@ -35,7 +35,6 @@ class SitemapBehaviorTest extends TestCase
         $this->_setupDbLogging();
     }
 
-
     /**
      * Initialize hook - configures logger.
      *
@@ -121,5 +120,4 @@ class SitemapBehaviorTest extends TestCase
         $result = $sitemap->extract(array_keys($data));
         $this->assertSame($result, $data);
     }
-
 }
