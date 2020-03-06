@@ -40,7 +40,7 @@ abstract class AbstractTableSitemapProvider implements SitemapProviderInterface,
 
     public function getSitemap(Event $event)
     {
-        $event->subject()->add($this->getSitemapLocations(), $this->name);
+        $event->getSubject()->add($this->getSitemapLocations(), $this->name);
     }
 
     public function getSitemapLocations()
@@ -50,7 +50,7 @@ abstract class AbstractTableSitemapProvider implements SitemapProviderInterface,
         }
 
         try {
-            $this->_table = TableRegistry::get($this->modelClass);
+            $this->_table = TableRegistry::getTableLocator()->get($this->modelClass);
 
             $query = $this->_table->find();
             $query = $this->find($query);

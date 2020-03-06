@@ -26,7 +26,7 @@ class SitemapBehaviorTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->table = TableRegistry::get('Banana.Posts');
+        $this->table = TableRegistry::getTableLocator()->get('Banana.Posts');
         $this->table->primaryKey(['id']);
         $this->table->addBehavior('Sitemap.Sitemap');
         //$this->table->addBehavior('Tree.Tree');
@@ -86,7 +86,7 @@ class SitemapBehaviorTest extends TestCase
         $updated = $this->table->updateSitemap($this->table->get(1), $data);
         //debug($updated);
 
-        $SitemapUrls = TableRegistry::get('Sitemap.SitemapUrls');
+        $SitemapUrls = TableRegistry::getTableLocator()->get('Sitemap.SitemapUrls');
         $sitemap = $SitemapUrls->find()
             ->where(['model' => $this->table->alias(), 'foreignKey' => 1])
             ->first();
@@ -112,7 +112,7 @@ class SitemapBehaviorTest extends TestCase
 
         $this->table->save($entity);
 
-        $SitemapUrls = TableRegistry::get('Sitemap.SitemapUrls');
+        $SitemapUrls = TableRegistry::getTableLocator()->get('Sitemap.SitemapUrls');
         $sitemap = $SitemapUrls->find()
             ->where(['model' => $this->table->alias(), 'foreignKey' => 1])
             ->first();

@@ -1,7 +1,7 @@
 <?php
 namespace Sitemap\View;
 
-use Cake\Network\Exception\NotFoundException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\View\View;
 use Sitemap\Controller\Component\SitemapComponent;
 

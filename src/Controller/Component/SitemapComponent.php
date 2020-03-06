@@ -53,7 +53,7 @@ class SitemapComponent extends Component
         $this->_type = $type;
 
         //$this->controller->autoRender = false;
-        $this->controller->viewBuilder()->className('Sitemap.SitemapXml');
+        $this->controller->viewBuilder()->setClassName('Sitemap.SitemapXml');
         $this->controller->viewBuilder()->autoLayout(false);
 
         //@TODO Set response parameters in SitemapXml view

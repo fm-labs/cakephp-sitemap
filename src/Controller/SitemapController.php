@@ -8,8 +8,8 @@ use Cake\Controller\Controller;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Network\Exception\BadRequestException;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Routing\Router;
 use Content\Event\SitemapListener;
 use Sitemap\Controller\Component\SitemapComponent;
@@ -34,15 +34,15 @@ class SitemapController extends Controller
         $cacheKey = 'sitemap_locations';
         $sitemaps = Cache::read($cacheKey);
 
-        $this->eventManager()->on('Sitemap.get', function (Event $event) {
-            $event->subject()->add(new SitemapLocation('/'));
+        $this->getEventManager()->on('Sitemap.get', function (Event $event) {
+            $event->getSubject()->add(new SitemapLocation('/'));
         });
-        //$this->eventManager()->on(new SitemapListener());
+        //$this->getEventManager()->on(new SitemapListener());
 
         if (!$sitemaps) {
             $collector = new SitemapLocationsCollector();
             $event = new Event('Sitemap.get', $collector);
-            $this->eventManager()->dispatch($event);
+            $this->getEventManager()->dispatch($event);
 
             // providers
             /*
@@ -92,7 +92,7 @@ class SitemapController extends Controller
             $indexUrls[] = ['loc' => Router::url(['action' => 'view', $sitemap])];
         }
 
-        $this->viewBuilder()->className('Sitemap.SitemapXml');
+        $this->viewBuilder()->setClassName('Sitemap.SitemapXml');
 
         $this->set('type', 'index');
         $this->set('locations', $indexUrls);
@@ -116,7 +116,7 @@ class SitemapController extends Controller
             throw new NotFoundException();
         }
 
-        $this->viewBuilder()->className('Sitemap.SitemapXml');
+        $this->viewBuilder()->setClassName('Sitemap.SitemapXml');
 
         $this->set('type', 'sitemap');
         $this->set('locations', $sitemaps[$scope]);
