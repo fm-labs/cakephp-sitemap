@@ -39,7 +39,7 @@ class SitemapBehavior extends Behavior
     public function findSitemap(Query $query)
     {
         if (!method_exists($this->_table, 'findSitemap')) {
-            Log::warning('Table ' . $this->_table->alias() . ' has no method findSitemap()');
+            Log::warning('Table ' . $this->_table->getAlias() . ' has no method findSitemap()');
 
             return $query;
         }

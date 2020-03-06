@@ -48,24 +48,24 @@ class SitemapBehaviorTest extends TestCase
 
         $connection = ConnectionManager::get('test');
 
-        $logger = $connection->logger();
+        $logger = $connection->getLogger();
         $this->dbLogger = new DebugLog($logger, 'test');
 
         $connection->logQueries(true);
-        $connection->logger($this->dbLogger);
+        $connection->setLogger($this->dbLogger);
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        TableRegistry::clear();
+        TableRegistry::getTableLocator()->clear();
     }
 
     public function testFindSitemap()
     {
         $entity = $this->table
             ->find('sitemap')
-            ->where([ $this->table->alias() . '.id' => 1])
+            ->where([ $this->table->getAlias() . '.id' => 1])
             ->first();
 
         $this->assertInstanceOf('Sitemap\Model\Entity\SitemapUrl', $entity->sitemap_url);
@@ -88,7 +88,7 @@ class SitemapBehaviorTest extends TestCase
 
         $SitemapUrls = TableRegistry::getTableLocator()->get('Sitemap.SitemapUrls');
         $sitemap = $SitemapUrls->find()
-            ->where(['model' => $this->table->alias(), 'foreignKey' => 1])
+            ->where(['model' => $this->table->getAlias(), 'foreignKey' => 1])
             ->first();
 
         $result = $sitemap->extract(array_keys($data));
@@ -114,7 +114,7 @@ class SitemapBehaviorTest extends TestCase
 
         $SitemapUrls = TableRegistry::getTableLocator()->get('Sitemap.SitemapUrls');
         $sitemap = $SitemapUrls->find()
-            ->where(['model' => $this->table->alias(), 'foreignKey' => 1])
+            ->where(['model' => $this->table->getAlias(), 'foreignKey' => 1])
             ->first();
 
         $result = $sitemap->extract(array_keys($data));
