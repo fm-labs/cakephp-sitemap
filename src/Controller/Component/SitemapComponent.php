@@ -35,7 +35,7 @@ class SitemapComponent extends Component
 
     public function initialize(array $config)
     {
-        $this->controller = $this->_registry->getController();
+        $this->controller = $this->getController();
 
         //if ($this->_registry->has('Auth')) {
         //    $this->Auth->allow();

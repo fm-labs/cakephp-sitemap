@@ -51,7 +51,7 @@ class SitemapBehaviorTest extends TestCase
         $logger = $connection->getLogger();
         $this->dbLogger = new DebugLog($logger, 'test');
 
-        $connection->logQueries(true);
+        $connection->enableQueryLogging(true);
         $connection->setLogger($this->dbLogger);
     }
 
