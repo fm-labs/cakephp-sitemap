@@ -24,7 +24,7 @@ class SitemapUrlsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.sitemap.sitemap_urls'
+        'plugin.sitemap.sitemap_urls',
     ];
 
     /**

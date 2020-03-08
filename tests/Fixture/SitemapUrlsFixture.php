@@ -54,7 +54,7 @@ class SitemapUrlsFixture extends TestFixture
             'priority' => 5,
             'lastmod' => null,
             'created' => '2016-04-17 18:44:36',
-            'modified' => '2016-04-17 18:44:36'
+            'modified' => '2016-04-17 18:44:36',
         ],
     ];
 }

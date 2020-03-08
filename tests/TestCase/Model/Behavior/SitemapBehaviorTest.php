@@ -15,7 +15,7 @@ class SitemapBehaviorTest extends TestCase
 
     public $fixtures = [
         'plugin.banana.posts',
-        'plugin.sitemap.sitemap_urls'
+        'plugin.sitemap.sitemap_urls',
     ];
 
     /**
@@ -80,7 +80,7 @@ class SitemapBehaviorTest extends TestCase
             'loc' => 'http://localhost/test',
             'changefreq' => 'daily',
             'priority' => 9,
-            'lastmod' => null
+            'lastmod' => null,
         ];
 
         $updated = $this->table->updateSitemap($this->table->get(1), $data);
@@ -102,7 +102,7 @@ class SitemapBehaviorTest extends TestCase
             'loc' => 'http://localhost/test',
             'changefreq' => 'daily',
             'priority' => 9,
-            'lastmod' => null
+            'lastmod' => null,
         ];
 
         $entity = $this->table->get(1);

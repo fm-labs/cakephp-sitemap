@@ -18,8 +18,8 @@ class SitemapBehavior extends Behavior
         'implementedMethods' => [
         ],
         'implementedFinders' => [
-            'sitemap' => 'findSitemap'
-        ]
+            'sitemap' => 'findSitemap',
+        ],
     ];
 
     /**
