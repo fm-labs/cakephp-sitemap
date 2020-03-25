@@ -1,18 +1,15 @@
 <?php
 namespace Sitemap\View;
 
-use Cake\Http\Exception\NotFoundException;
 use Cake\View\View;
-use Sitemap\Controller\Component\SitemapComponent;
 
 class SitemapXmlView extends View
 {
     public function initialize()
     {
-        $cacheDuration = '+1 day';
-
-        $this->response->type('application/xml');
-        $this->response->cache(mktime(0, 0, 0, date('m'), date('d'), date('Y')), $cacheDuration);
+        $this->response = $this->response
+            ->withType('application/xml')
+            ->withCache(mktime(0, 0, 0, date('m'), date('d'), date('Y')), '+1 day');
     }
 
     public function render($view = null, $layout = null)

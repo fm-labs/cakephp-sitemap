@@ -54,11 +54,12 @@ class SitemapComponent extends Component
 
         //$this->controller->autoRender = false;
         $this->controller->viewBuilder()->setClassName('Sitemap.SitemapXml');
-        $this->controller->viewBuilder()->autoLayout(false);
+        $this->controller->viewBuilder()->enableAutoLayout(false);
 
         //@TODO Set response parameters in SitemapXml view
-        $this->controller->response->type('application/xml');
-        $this->controller->response->cache(mktime(0, 0, 0, date('m'), date('d'), date('Y')), $this->cache);
+        $this->controller->response = $this->controller->response
+            ->withType('application/xml')
+            ->withCache(mktime(0, 0, 0, date('m'), date('d'), date('Y')), $this->cache);
     }
 
     public function create()

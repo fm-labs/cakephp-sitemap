@@ -27,7 +27,7 @@ class SitemapBehaviorTest extends TestCase
     {
         parent::setUp();
         $this->table = TableRegistry::getTableLocator()->get('Banana.Posts');
-        $this->table->primaryKey(['id']);
+        $this->table->setPrimaryKey(['id']);
         $this->table->addBehavior('Sitemap.Sitemap');
         //$this->table->addBehavior('Tree.Tree');
         //debug($this->table->find('treeList')->toArray());

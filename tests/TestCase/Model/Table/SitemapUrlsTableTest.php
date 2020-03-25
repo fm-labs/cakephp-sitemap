@@ -35,7 +35,7 @@ class SitemapUrlsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('SitemapUrls') ? [] : ['className' => 'Sitemap\Model\Table\SitemapUrlsTable'];
+        $config = TableRegistry::getTableLocator()->exists('SitemapUrls') ? [] : ['className' => 'Sitemap\Model\Table\SitemapUrlsTable'];
         $this->SitemapUrls = TableRegistry::getTableLocator()->get('SitemapUrls', $config);
     }
 
