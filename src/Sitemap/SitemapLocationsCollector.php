@@ -1,9 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Sitemap\Sitemap;
 
 use Cake\Collection\Collection;
-use Sitemap\Sitemap\SitemapLocation;
 
 /**
  * Class SitemapLocationsCollector
@@ -53,7 +53,7 @@ class SitemapLocationsCollector
 
     /**
      * Unused
-     * @return Collection
+     * @return \Cake\Collection\Collection
      */
     public function toCollections()
     {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sitemap\Sitemap;
 
@@ -19,18 +20,18 @@ class SitemapLocation implements \ArrayAccess
         $loc = Router::url($loc, true);
 
         // validate priority
-        $priority = (is_numeric($priority) && $priority >= 0 && $priority <= 1) ? $priority : 0.5;
-        $priority = ($priority == 0 || $priority == 1) ? number_format($priority, 0) : number_format($priority, 1);
+        $priority = is_numeric($priority) && $priority >= 0 && $priority <= 1 ? $priority : 0.5;
+        $priority = $priority == 0 || $priority == 1 ? number_format($priority, 0) : number_format($priority, 1);
 
         // w3c time format
         // @link http://www.w3.org/TR/NOTE-datetime
         //$lastmod = (is_numeric($lastmod)) ? $lastmod : strtotime($lastmod);
-        $lastmod = (is_object($lastmod) && $lastmod instanceof Time) ? $lastmod->toW3cString() : $lastmod;
-        $lastmod = (is_object($lastmod) && $lastmod instanceof \DateTime) ? $lastmod->format(DATE_W3C) : $lastmod;
+        $lastmod = is_object($lastmod) && $lastmod instanceof Time ? $lastmod->toW3cString() : $lastmod;
+        $lastmod = is_object($lastmod) && $lastmod instanceof \DateTime ? $lastmod->format(DATE_W3C) : $lastmod;
         //$lastmod = ($lastmod) ? date(DATE_W3C, strtotime($lastmod)) : null;
 
         // validate changefreq
-        $changefreq = (in_array($changefreq, ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'])) ? $changefreq : null;
+        $changefreq = in_array($changefreq, ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never']) ? $changefreq : null;
 
         $this->_fields = compact('loc', 'priority', 'lastmod', 'changefreq');
     }
@@ -66,7 +67,7 @@ class SitemapLocation implements \ArrayAccess
      * @param mixed $offset <p>
      * An offset to check for.
      * </p>
-     * @return boolean true on success or false on failure.
+     * @return bool true on success or false on failure.
      * </p>
      * <p>
      * The return value will be casted to boolean if non-boolean was returned.

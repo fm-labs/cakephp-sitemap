@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sitemap\Test\TestCase\Model\Behavior;
 
@@ -12,7 +13,6 @@ use DebugKit\Database\Log\DebugLog;
  */
 class SitemapBehaviorTest extends TestCase
 {
-
     public $fixtures = [
         'plugin.banana.posts',
         'plugin.sitemap.sitemap_urls',

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sitemap\Model\Behavior;
 
@@ -13,7 +14,6 @@ use Cake\ORM\Query;
  */
 class SitemapBehavior extends Behavior
 {
-
     protected $_defaultConfig = [
         'implementedMethods' => [
         ],
@@ -33,8 +33,8 @@ class SitemapBehavior extends Behavior
     }
 
     /**
-     * @param Query $query
-     * @return Query
+     * @param \Cake\ORM\Query $query
+     * @return \Cake\ORM\Query
      */
     public function findSitemap(Query $query)
     {

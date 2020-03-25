@@ -1,15 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Sitemap\Sitemap;
 
-use Cake\Collection\Collection;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Log\Log;
 use Cake\ORM\Query;
-use Cake\ORM\ResultSet;
-use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 
 abstract class AbstractTableSitemapProvider implements SitemapProviderInterface, EventListenerInterface
@@ -25,7 +23,7 @@ abstract class AbstractTableSitemapProvider implements SitemapProviderInterface,
     public $name = 'default';
 
     /**
-     * @var Table
+     * @var \Cake\ORM\Table
      */
     protected $_table;
 
@@ -76,13 +74,13 @@ abstract class AbstractTableSitemapProvider implements SitemapProviderInterface,
     /**
      * Find entities
      *
-     * @param Query $query
-     * @return Query
+     * @param \Cake\ORM\Query $query
+     * @return \Cake\ORM\Query
      */
     abstract public function find(Query $query);
 
     /**
-     * @param ResultSetInterface|ResultSet $result
+     * @param \Cake\Datasource\ResultSetInterface|\Sitemap\Sitemap\ResultSet $result
      * @return
      * @internal param array $locations
      */

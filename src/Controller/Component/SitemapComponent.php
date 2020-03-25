@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
+
 namespace Sitemap\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
-use Cake\Core\Exception\Exception;
 use Sitemap\Exception\InvalidSitemapProviderException;
 use Sitemap\Exception\MissingSitemapProviderClassException;
 use Sitemap\Sitemap\SitemapProviderInterface;
@@ -19,15 +19,15 @@ use Sitemap\Sitemap\SitemapProviderInterface;
  */
 class SitemapComponent extends Component
 {
-    const TYPE_INDEX = 'index';
-    const TYPE_SITEMAP = 'sitemap';
+    public const TYPE_INDEX = 'index';
+    public const TYPE_SITEMAP = 'sitemap';
 
     public $locations = [];
 
     public $cache = '+1 day';
 
     /**
-     * @var Controller
+     * @var \Cake\Controller\Controller
      */
     public $controller;
 
@@ -91,16 +91,16 @@ class SitemapComponent extends Component
         $url = Router::url($url, true);
 
         // validate priority
-        $priority = (is_numeric($priority) && $priority >= 0 && $priority <= 1) ? $priority : 0.5;
-        $priority = ($priority == 0 || $priority == 1) ? number_format($priority, 0) : number_format($priority, 1);
+        $priority = is_numeric($priority) && $priority >= 0 && $priority <= 1 ? $priority : 0.5;
+        $priority = $priority == 0 || $priority == 1 ? number_format($priority, 0) : number_format($priority, 1);
 
         // w3c time format
         // @link http://www.w3.org/TR/NOTE-datetime
         //$lastmod = (is_numeric($lastmod)) ? $lastmod : strtotime($lastmod);
-        $lastmod = ($lastmod) ? date(DATE_W3C, strtotime($lastmod)) : null;
+        $lastmod = $lastmod ? date(DATE_W3C, strtotime($lastmod)) : null;
 
         // validate changefreq
-        $changefreq = (in_array($changefreq, ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'])) ? $changefreq : null;
+        $changefreq = in_array($changefreq, ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never']) ? $changefreq : null;
 
         array_push($this->locations, ['loc' => $url, 'priority' => $priority, 'lastmod' => $lastmod, 'changefreq' => $changefreq]);
 
@@ -109,7 +109,7 @@ class SitemapComponent extends Component
 
     /**
      * @param $sitemap
-     * @return SitemapProviderInterface
+     * @return \Sitemap\Sitemap\SitemapProviderInterface
      * @deprecated
      */
     public function getProvider($sitemap)

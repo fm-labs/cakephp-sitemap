@@ -1,16 +1,16 @@
 <?php
+declare(strict_types=1);
+
 namespace Sitemap\Test\TestCase\Model\Table;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use Sitemap\Model\Table\SitemapUrlsTable;
 
 /**
  * Sitemap\Model\Table\SitemapUrlsTable Test Case
  */
 class SitemapUrlsTableTest extends TestCase
 {
-
     /**
      * Test subject
      *

@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace Sitemap\Controller;
 
 use Banana\Exception\ClassNotFoundException;
 use Cake\Cache\Cache;
-use Cake\Collection\Collection;
 use Cake\Controller\Controller;
 use Cake\Core\App;
 use Cake\Core\Configure;
@@ -11,23 +12,19 @@ use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Routing\Router;
-use Content\Event\SitemapListener;
-use Sitemap\Controller\Component\SitemapComponent;
 use Sitemap\Sitemap\SitemapLocation;
 use Sitemap\Sitemap\SitemapLocationsCollector;
-use Sitemap\Sitemap\SitemapProviderInterface;
 
 /**
  * Class SitemapController
  * @package Sitemap\Controller
  *
- * @property SitemapComponent $Sitemap
+ * @property \Sitemap\Controller\Component\SitemapComponent $Sitemap
  *
  * @todo Use RequestHandler
  */
 class SitemapController extends Controller
 {
-
     protected function _getSitemaps()
     {
 
@@ -65,7 +62,7 @@ class SitemapController extends Controller
 
     /**
      * @param $className
-     * @return SitemapProviderInterface
+     * @return \Sitemap\Sitemap\SitemapProviderInterface
      */
     protected function _getSitemapProvider($className)
     {
