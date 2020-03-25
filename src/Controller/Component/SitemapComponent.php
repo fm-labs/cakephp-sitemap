@@ -33,7 +33,7 @@ class SitemapComponent extends Component
 
     protected $_type;
 
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->controller = $this->getController();
 

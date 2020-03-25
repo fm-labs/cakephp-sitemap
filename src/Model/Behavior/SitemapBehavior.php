@@ -28,7 +28,7 @@ class SitemapBehavior extends Behavior
      * @param array $config
      * @throws \Exception
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
     }
 
