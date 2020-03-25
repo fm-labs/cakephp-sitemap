@@ -23,7 +23,7 @@ class SitemapBehaviorTest extends TestCase
      */
     public $dbLogger;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->table = TableRegistry::getTableLocator()->get('Banana.Posts');
@@ -55,7 +55,7 @@ class SitemapBehaviorTest extends TestCase
         $connection->setLogger($this->dbLogger);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         TableRegistry::getTableLocator()->clear();

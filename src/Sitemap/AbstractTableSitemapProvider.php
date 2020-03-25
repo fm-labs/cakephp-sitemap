@@ -31,7 +31,7 @@ abstract class AbstractTableSitemapProvider implements SitemapProviderInterface,
 
     protected $_locations = [];
 
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'Sitemap.get' => 'getSitemap',
