@@ -14,7 +14,7 @@ use DebugKit\Database\Log\DebugLog;
 class SitemapBehaviorTest extends TestCase
 {
     public $fixtures = [
-        'plugin.banana.posts',
+        'plugin.cupcake.posts',
         'plugin.sitemap.sitemap_urls',
     ];
 
@@ -26,7 +26,7 @@ class SitemapBehaviorTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->table = TableRegistry::getTableLocator()->get('Banana.Posts');
+        $this->table = TableRegistry::getTableLocator()->get('Cupcake.Posts');
         $this->table->setPrimaryKey(['id']);
         $this->table->addBehavior('Sitemap.Sitemap');
         //$this->table->addBehavior('Tree.Tree');

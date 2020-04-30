@@ -7,7 +7,7 @@ use Cake\View\View;
 
 class SitemapXmlView extends View
 {
-    public function initialize(): void)
+    public function initialize(): void
     {
         $this->response = $this->response
             ->withType('application/xml')

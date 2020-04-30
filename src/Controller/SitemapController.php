@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Sitemap\Controller;
 
-use Banana\Exception\ClassNotFoundException;
+use Cupcake\Exception\ClassNotFoundException;
 use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Core\App;
