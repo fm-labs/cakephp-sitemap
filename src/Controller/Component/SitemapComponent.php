@@ -38,7 +38,7 @@ class SitemapComponent extends Component
         $this->controller = $this->getController();
 
         //if ($this->_registry->has('Auth')) {
-        //    $this->Auth->allow();
+        //    $this->Authentication->allowUnauthenticated();
         //}
     }
 
