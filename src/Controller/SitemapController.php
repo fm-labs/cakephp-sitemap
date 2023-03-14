@@ -135,7 +135,6 @@ class SitemapController extends Controller
      */
     public function _index()
     {
-
         $this->Sitemap->createIndex();
 
         $sitemaps = Configure::read('Sitemap');
